@@ -12,7 +12,7 @@
 3. 开启开发者选项，打开 USB 调试，小米手机一并打开 USB 调试（安全设置）
 4. 使用数据线连接手机，等待系统自动安装驱动完成
 ### 下载程序
-5. 下载百万英雄答题器程序压缩包，解压到硬盘目录，例如 `D:\MillionHeroes`
+5. 下载[百万英雄答题器](https://github.com/iflycn/hero/archive/master.zip)压缩包，解压到硬盘目录，例如 `D:\MillionHeroes`
 6. 修改文件 `mian.py` 中的 `APP_ID`、`API_KEY`、`SECRET_KEY` 为你自己的，申请地址：[百度 AI 开放平台](http://ai.baidu.com/tech/ocr/general)
 ### 安装 Python
 7. 从 [Python 官网](https://www.python.org/downloads)下载安装 `python3.6.4`
