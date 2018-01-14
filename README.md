@@ -4,6 +4,13 @@
 ## 运行效果截图
 ![](https://github.com/iflycn/hero/blob/master/cmd.png)
 
+## 如何工作
+1. 从手机屏幕获取截图并上传到电脑
+2. 裁切出截图中的问题和答案部分，使用百度 ORC 识别文字
+3. 抓取问答网站数据，统计每个答案在数据中出现的次数
+4. 如果问答网站数据无法匹配，则使用问题+答案为关键字，抓取关键字在百度搜索中出现的次数
+5. 根据统计出的数据计算权重并给出建议回答
+
 ## 如何使用（Windows 系统）
 ### 安装 ADB
 1. 访问 [ADB Shell](http://adbshell.com/downloads) 下载 `ADB Kits`，解压到硬盘目录，例如 `D:\ADB`
@@ -12,7 +19,7 @@
 3. 开启开发者选项，打开 USB 调试，小米手机一并打开 USB 调试（安全设置）
 4. 使用数据线连接手机，等待系统自动安装驱动完成
 ### 下载程序
-5. 下载[百万英雄答题器](https://github.com/iflycn/hero/archive/master.zip)压缩包，解压到硬盘目录，例如 `D:\hero-master`
+5. 下载[百万英雄答题器压缩包](https://github.com/iflycn/hero/archive/master.zip)，解压到硬盘目录，例如 `D:\hero-master`
 6. 修改文件 `mian.py` 中的 `APP_ID`、`API_KEY`、`SECRET_KEY` 为你自己的，申请地址：[百度 AI 开放平台](http://ai.baidu.com/tech/ocr/general)
 ### 安装 Python
 7. 从 [Python 官网](https://www.python.org/downloads)下载安装 `python3.6.4`
