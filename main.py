@@ -12,11 +12,23 @@ from datetime import datetime
 from aip import AipOcr
 from ai import AI
 
-# 你的百度OCR
+# 你的百度 OCR
 APP_ID = "10675166"
 API_KEY = "66kRY7ZHxNY6z60Ot0cUKfD1"
 SECRET_KEY = "ioQpGWnYABpDbBQ8edTkwnaMhG90PH8M"
 
+# 处理设备截图
+def adb_get_screen():
+    # 获取设备截图
+    os.system("adb shell /system/bin/screencap -p /sdcard/screenshot.png")
+    os.system("adb pull /sdcard/screenshot.png ./screenshots/screenshot.png")
+    # copyfile(os.path.join("./screenshots/", "screenshot.png"), os.path.join("./screenshots/", datetime.now().strftime("%Y%m%d%H%M%S.png")))
+    # 裁剪截图
+    img = Image.open(r"./screenshots/screenshot.png")
+    region = img.crop((70, 230, img.size[0] - 70, 1285))  # 截图裁剪坐标
+    region.save(r"./screenshots/screenshot_crop.png")
+
+# 获取 OCR 数据
 def get_crop_data(screenshot_crop):
     with open(screenshot_crop, "rb") as fp:
         image_data = fp.read()
@@ -25,50 +37,24 @@ def get_crop_data(screenshot_crop):
 
 def main():
     time_start = time.time()
-
-    # 获取设备截图
-    os.system("adb shell /system/bin/screencap -p /sdcard/screenshot.png")
-    os.system("adb pull /sdcard/screenshot.png ./screenshots/screenshot.png")
-    copyfile(os.path.join("./screenshots/", "screenshot.png"), os.path.join("./screenshots/", datetime.now().strftime("%Y%m%d%H%M%S.png")))
-
-    # 裁剪截图
-    img = Image.open(r"./screenshots/screenshot.png")
-    region = img.crop((70, 230, img.size[0] - 70, 1285))  # 截图裁剪坐标
-    region.save(r"./screenshots/screenshot_crop.png")
-
+    # 处理设备截图
+    adb_get_screen()
     # 获取 OCR 结果
     OCR = AipOcr(APP_ID, API_KEY, SECRET_KEY)
     respon = OCR.basicGeneral(get_crop_data(r"./screenshots/screenshot_crop.png"))
     words_result = respon["words_result"]
-
     # 处理获取结果
     question = ""
-    answer = ['', '', '']
+    answer = ["", "", ""]
     i = 0
     for words in words_result:
         i += 1
         if(i < len(words_result) - 2):
-            question += words['words']
+            question += words["words"]
         else:
-            answer[len(words_result) - i] = words['words']
-
-    # 去除题目编号
-    if str.isdigit(question[1:2]):
-        question = question[3:]
-    else:
-        question = question[2:]
-
-    # 输出题目和答案
-    print("-" * 72)
-    print(question + "\n")
-
-    # 去除特殊字符
-    for v in ["“", "”", "\"", "？", "?"]:
-        question = question.replace(v, "")
-
+            answer[len(words_result) - i] = words["words"]
     # 开始统计搜索
     AI(question, answer).search()
-
     # 统计程序用时
     time_end = time.time()
     print("use {0} seconds".format(round(time_end - time_start, 2)))
