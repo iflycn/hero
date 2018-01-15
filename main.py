@@ -67,7 +67,7 @@ def main(enter, app):
     print("use {0} seconds".format(round(time_end - time_start, 2)))
 
 if __name__ == "__main__":
-    print("\n" + "-" * 29 + " 派桑答题助手 " + "-" * 29)
+    print("\n" + "-" * 27 + " 百万英雄答题助手 " + "-" * 27)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！")
     app = input("\n输入数字代表的 APP 类型（1. 百万英雄、2. 芝士超人）：")
     print("\n屏幕出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
