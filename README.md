@@ -1,5 +1,5 @@
 # 百万英雄答题助手
-使用 `Python` 开发的答题助手，目前适配百万英雄、芝士超人，支持 Android 手机或电脑模拟器。
+使用 `Python` 开发的答题助手，适配百万英雄、芝士超人、冲顶大会、头脑王者，自动显示答案，支持 Android 手机或电脑模拟器。
 
 ## 运行效果截图
 ![](https://github.com/iflycn/hero/blob/master/cmd.png)

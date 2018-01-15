@@ -23,10 +23,9 @@ def adb_get_screen(enter, app):
     except:
         print("error: file not found")
         sys.exit()
-    if app == "2": # 截图裁剪坐标
-        coordinate = (45, 285, 45, 1200) # 芝士超人
-    else:
-        coordinate = (70, 240, 70, 1285) # 百万英雄
+    # 截图裁剪坐标
+    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1200), (70, 310, 70, 1160), (), (), (), (), (), (138, 500, 138, 1700))
+    coordinate = coordinate[app - 1]
     region = img.crop((coordinate[0], coordinate[1], img.size[0] - coordinate[2], coordinate[3]))
     region.save(r"./screenshots/screenshot_crop.png")
 
@@ -50,7 +49,10 @@ def main(enter, app):
         sys.exit()
     # 处理获取结果
     question = ""
-    answer = ["", "", ""]
+    if app in (1, 2, 3):
+        answer = ["", "", ""]
+    else:
+        answer = ["", "", "", ""]
     i = 0
     for words in words_result:
         i += 1
@@ -66,12 +68,16 @@ def main(enter, app):
 
 if __name__ == "__main__":
     print("\n" + "-" * 27 + " 百万英雄答题助手 " + "-" * 27)
-    print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！")
-    app = input("\n输入数字代表的 APP 类型（1. 百万英雄、2. 芝士超人）：")
+    print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
+    app_list = ("1", "2", "3", "9")
+    while True:
+        app = input("输入数字（1.百万英雄、2.芝士超人、3.冲顶大会、9.头脑王者）：")
+        if app in app_list:
+            break
     print("\n屏幕出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
     while True:
         enter = input("\n回车键作答，q 键退出。等待输入：")
         if enter.lower() == "q":
             break
         else:
-            main(enter, app)
+            main(enter, int(app))

@@ -12,6 +12,7 @@ class AI:
         self.count = 0
 
     def ai_search(self, app):
+        self.question = self.format_question_pre(self.question, app)
         print("-" * 72)
         print("{}\n".format(self.question)) # 输出题目
         self.question = self.format_question(self.question, app)
@@ -71,9 +72,18 @@ class AI:
             self.stat[sub] += int(data.split("百度为您找到相关结果约")[1].split("个")[0].replace(",", ""))
         self.count += 1
 
+    def format_question_pre(self, question, app):
+        # 去除多余编号
+        if app == 9:
+            if str.isdigit(question[-1]):
+                question = question[:-1]
+            if str.isdigit(question[-1]):
+                question = question[:-1]
+        return question
+
     def format_question(self, question, app):
-        # 去除百万英雄题目编号
-        if app == "1":
+        # 去除题目编号
+        if app in (1, 3):
             if str.isdigit(question[1:2]):
                 question = question[3:]
             else:
@@ -82,7 +92,8 @@ class AI:
         for v in ["“", "”", "\"", "？", "?"]:
             question = question.replace(v, "")
         # 排除否定式提问
-        for v in ["不是", "不会", "不用", "不宜", "不包括", "不属于", "不正确", "没有", "未在", "是错"]:
+        for v in ("不是", "不会", "不用", "不宜", "不包括", "不属于", "不正确", "不提供", "没有",
+                  "未在", "未曾", "是错"):
             if v in question:
                 if "不" in v:
                     v = "不"
