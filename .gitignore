@@ -1,5 +1,6 @@
 /temp/
 desktop.ini
+.vscode
 __pycache__
 /screenshots/
 ai_baidu.py

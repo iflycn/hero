@@ -5,12 +5,10 @@ from PIL import Image
 from shutil import copyfile
 from datetime import datetime
 from aip import AipOcr
+from config import APP_ID
+from config import API_KEY
+from config import SECRET_KEY
 from ai import AI
-
-# 你的百度 OCR
-APP_ID = "10675166"
-API_KEY = "66kRY7ZHxNY6z60Ot0cUKfD1"
-SECRET_KEY = "ioQpGWnYABpDbBQ8edTkwnaMhG90PH8M"
 
 # 处理设备截图
 def adb_get_screen(enter, app):
@@ -61,7 +59,7 @@ def main(enter, app):
         else:
             answer[len(words_result) - i] = words["words"]
     # 开始统计搜索
-    AI(question, answer[::-1]).ai_search()
+    AI(question, answer[::-1]).ai_search(app)
     # 统计程序用时
     time_end = time.time()
     print("use {0} seconds".format(round(time_end - time_start, 2)))

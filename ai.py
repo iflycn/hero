@@ -11,10 +11,10 @@ class AI:
         self.stat = []
         self.count = 0
 
-    def ai_search(self):
+    def ai_search(self, app):
         print("-" * 72)
         print("{}\n".format(self.question)) # 输出题目
-        self.question = self.format_question(self.question)
+        self.question = self.format_question(self.question, app)
         for i in range(len(self.answer)):
             self.stat.append(0)
         _thread.start_new_thread(self.get_count_zhidao, ("https://iask.sina.com.cn/search?searchWord=" + urllib.parse.quote(self.question),))
@@ -71,12 +71,13 @@ class AI:
             self.stat[sub] += int(data.split("百度为您找到相关结果约")[1].split("个")[0].replace(",", ""))
         self.count += 1
 
-    def format_question(self, question):
-        # 去除题目编号
-        if str.isdigit(question[1:2]):
-            question = question[3:]
-        else:
-            question = question[2:]
+    def format_question(self, question, app):
+        # 去除百万英雄题目编号
+        if app == "1":
+            if str.isdigit(question[1:2]):
+                question = question[3:]
+            else:
+                question = question[2:]
         # 去除特殊字符
         for v in ["“", "”", "\"", "？", "?"]:
             question = question.replace(v, "")
