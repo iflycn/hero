@@ -74,7 +74,7 @@ if __name__ == "__main__":
         app = input("输入数字（1.百万英雄、2.芝士超人、3.冲顶大会、9.头脑王者）：")
         if app in app_list:
             break
-    print("\n屏幕出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
+    print("\n手机出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
     while True:
         enter = input("\n回车键作答，q 键退出。等待输入：")
         if enter.lower() == "q":

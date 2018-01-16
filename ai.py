@@ -12,11 +12,12 @@ class AI:
         self.count = 0
 
     def ai_search(self, app):
-        self.question = self.format_question_pre(self.question, app)
+        self.question = self.format_question_pre(self.question, app) # 预格式化题目
         print("-" * 72)
         print("{}\n".format(self.question)) # 输出题目
-        self.question = self.format_question(self.question, app)
-        for i in range(len(self.answer)):
+        self.question = self.format_question(self.question, app) # 格式化题目
+        for i in range(len(self.answer)): # 格式化答案并生成权重列表
+            self.answer[i] = self.answer[i].replace("《", "").replace("》", "")
             self.stat.append(0)
         _thread.start_new_thread(self.get_count_zhidao, ("https://iask.sina.com.cn/search?searchWord=" + urllib.parse.quote(self.question),))
         _thread.start_new_thread(self.get_count_zhidao, ("http://wenwen.sogou.com/s/?w=" + urllib.parse.quote(self.question),))
@@ -30,11 +31,17 @@ class AI:
             self.count += self.stat[i]  # 计算总数如果为零则发起新搜索
         if self.count == 0:
             print("没有找到答案，启用百度搜索...\n")
-            http = "https://www.baidu.com/s?wd=" + urllib.parse.quote(self.question)
+            http = "https://www.baidu.com/s?wd="
             for i in range(len(self.answer)):
-                _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote("+") + urllib.parse.quote(self.answer[i].replace("《", "").replace("》", "")),))
+                _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote(self.answer[i]),))
             while True:
                 if self.count == len(self.answer):
+                    break
+            http += urllib.parse.quote(self.question)
+            for i in range(len(self.answer)):
+                _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote("+") + urllib.parse.quote(self.answer[i]),))
+            while True:
+                if self.count == len(self.answer) * 2:
                     break
         self.print_answer()
 
@@ -57,7 +64,7 @@ class AI:
             else:
                 data = str(data, "utf-8")
         for i in range(len(self.answer)):
-            self.stat[i] += data.count(self.answer[i].replace("《", "").replace("》", ""))
+            self.stat[i] += data.count(self.answer[i])
         self.count += 1
 
     def get_count_baidu(self, sub, url):
@@ -69,7 +76,12 @@ class AI:
         except:
             print("error: connection reset\n")
         else:
-            self.stat[sub] += int(data.split("百度为您找到相关结果约")[1].split("个")[0].replace(",", ""))
+            count = int(data.split("百度为您找到相关结果约")[1].split("个")[0].replace(",", ""))
+            if self.stat[sub] == 0:
+                self.stat[sub] = count + 0.001
+            else:
+                # print("{}: {} / {} = {}".format(sub, count, self.stat[sub], count / self.stat[sub]))
+                self.stat[sub] = count / self.stat[sub]
         self.count += 1
 
     def format_question_pre(self, question, app):
@@ -92,12 +104,9 @@ class AI:
         for v in ["“", "”", "\"", "？", "?"]:
             question = question.replace(v, "")
         # 排除否定式提问
-        for v in ("不是", "不会", "不用", "不宜", "不包括", "不属于", "不正确", "不提供", "没有",
-                  "未在", "未曾", "是错"):
-            if v in question:
-                if "不" in v:
-                    v = "不"
-                question = question.replace(v, "")
+        for v in (["不是", "是"], ["不同", "相同"], ["不会", "会"], ["不用", "必须"], ["不宜", "适宜"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["是错", "是对"]):
+            if v[0] in question:
+                question = question.replace(v[0], v[1])
                 self.question_type = False
         return question
 

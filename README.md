@@ -29,6 +29,9 @@
 10. 手机进入百万英雄界面
 11. 电脑运行 `CMD`，依次输入命令 `D:`、`cd hero-master`、`python main.py`，根据程序提示操作即可
 
+## 电脑小白怎么办？
+上面都是些什么玩意？根本看不懂！联系作者 `gito@foxmail.com`，索取打包好的程序，把右手食指放在鼠标左键上双击就可以运行:)
+
 ## 参考项目
 - [wuditken/MillionHeroes](https://github.com/wuditken/MillionHeroes)
 - [smileboywtu/MillionHeroAssistant](https://github.com/smileboywtu/MillionHeroAssistant)
