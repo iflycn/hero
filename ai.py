@@ -4,10 +4,10 @@ import _thread
 
 class AI:
 
-    def __init__(self, question, answer):
-        self.question = question
+    def __init__(self, data):
         self.question_type = True
-        self.answer = answer
+        self.question = data[0]
+        self.answer = data[1]
         self.stat = []
         self.count = 0
 

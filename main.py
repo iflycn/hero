@@ -29,39 +29,44 @@ def adb_get_screen(enter, app):
     region = img.crop((coordinate[0], coordinate[1], img.size[0] - coordinate[2], coordinate[3]))
     region.save(r"./screenshots/screenshot_crop.png")
 
-# 获取 OCR 数据
+# 获取设备截图
 def get_crop_data(img):
     with open(img, "rb") as fp:
         return fp.read()
     return ""
 
-def main(enter, app):
-    time_start = time.time()
-    # 处理设备截图
-    adb_get_screen(enter, app)
-    # 获取 OCR 结果
+# 获取 OCR 数据
+def get_words_result():
     OCR = AipOcr(APP_ID, API_KEY, SECRET_KEY)
     try:
         respon = OCR.basicGeneral(get_crop_data(r"./screenshots/screenshot_crop.png"))
-        words_result = respon["words_result"]
+        return respon["words_result"]
     except:
         print("error: baidu ocr error")
         sys.exit()
-    # 处理获取结果
+
+# 处理 OCR 数据
+def format_words_result(data):
     question = ""
     if app in (1, 2, 3):
         answer = ["", "", ""]
     else:
         answer = ["", "", "", ""]
     i = 0
-    for words in words_result:
+    for words in data:
         i += 1
-        if i <= len(words_result) - len(answer):
+        if i <= len(data) - len(answer):
             question += words["words"]
         else:
-            answer[len(words_result) - i] = words["words"]
+            answer[len(data) - i] = words["words"]
+    return [question, answer]
+
+def main(enter, app):
+    time_start = time.time()
+    # 处理设备截图
+    adb_get_screen(enter, app)
     # 开始统计搜索
-    AI(question, answer[::-1]).ai_search(app)
+    AI(format_words_result(get_words_result())).ai_search(app)
     # 统计程序用时
     time_end = time.time()
     print("use {0} seconds".format(round(time_end - time_start, 2)))

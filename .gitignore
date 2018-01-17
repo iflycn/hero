@@ -2,5 +2,6 @@
 desktop.ini
 .vscode
 __pycache__
+/dist/
 /screenshots/
-main.exe
+auto.py
