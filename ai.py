@@ -7,7 +7,7 @@ class AI:
     def __init__(self, data):
         self.question_type = True
         self.question = data[0]
-        self.answer = data[1]
+        self.answer = data[1][::-1]
         self.stat = []
         self.count = 0
 
@@ -104,7 +104,7 @@ class AI:
         for v in ["“", "”", "\"", "？", "?"]:
             question = question.replace(v, "")
         # 排除否定式提问
-        for v in (["不是", "是"], ["不同", "相同"], ["不会", "会"], ["不用", "必须"], ["不宜", "适宜"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["是错", "是对"]):
+        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不宜", "适宜"], ["不可能", "可能"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["是错", "是对"]):
             if v[0] in question:
                 question = question.replace(v[0], v[1])
                 self.question_type = False

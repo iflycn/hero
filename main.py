@@ -46,7 +46,7 @@ def get_words_result():
         sys.exit()
 
 # 处理 OCR 数据
-def format_words_result(data):
+def format_words_result(data, app):
     question = ""
     if app in (1, 2, 3):
         answer = ["", "", ""]
@@ -66,7 +66,7 @@ def main(enter, app):
     # 处理设备截图
     adb_get_screen(enter, app)
     # 开始统计搜索
-    AI(format_words_result(get_words_result())).ai_search(app)
+    AI(format_words_result(get_words_result(), app)).ai_search(app)
     # 统计程序用时
     time_end = time.time()
     print("use {0} seconds".format(round(time_end - time_start, 2)))
