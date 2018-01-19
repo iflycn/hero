@@ -27,18 +27,23 @@ class AI:
             self.answer[i] = self.answer[i].replace("《", "").replace("》", "")
             self.stat.append(0)
         if self.result != -1: # 输出建议回答
-            print("建议回答：{}\n".format(self.answer[self.result]))
+            for i in range(len(self.answer)):
+                if i == self.result:
+                    print("{} (√)".format(self.answer[i]))
+                else:
+                    print("{} (×)".format(self.answer[i]))
+            print("-" * 72)
+            print("建议回答：{}".format(self.answer[self.result]))
+            print("-" * 72 + "\n")
         for http in ("https://iask.sina.com.cn/search?searchWord=", "http://wenwen.sogou.com/s/?w=", "https://wenda.so.com/search/?q=", "https://zhidao.baidu.com/search?word="):
             _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote(self.question),))
         while True:
             if self.count == 4:
                 break
-        self.count = 0
-        for i in range(len(self.answer)):
-            self.count += self.stat[i]  # 计算总数如果为零则发起新搜索
-        if self.count == 0:
+        if sum(self.stat) == 0: # 计算总数如果为零则发起新搜索
             print("没有找到答案，启用百度搜索...\n")
             http = "https://www.baidu.com/s?wd="
+            self.count = 0
             for i in range(len(self.answer)):
                 _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote(self.answer[i]),))
             while True:
@@ -113,25 +118,22 @@ class AI:
         for v in ["“", "”", "\"", "？", "?"]:
             question = question.replace(v, "")
         # 排除否定式提问
-        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不宜", "适宜"], ["不可能", "可能"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["是错", "是对"]):
+        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不宜", "适宜"], ["不可能", "可能"], ["不需要", "需要"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["未获得", "获得"], ["是错", "是对"], ["并非", ""]):
             if v[0] in question:
                 question = question.replace(v[0], v[1])
                 self.question_type = False
         return question
 
     def print_answer(self):
-        self.count = 0
-        for i in range(len(self.answer)):
-            if self.answer[i] in self.question: # 如果问题中包含答案则调整权重
-                self.stat[i] = int(self.stat[i] / 3)
-            self.count += self.stat[i] # 计算总数避免除数依然为零
         for i in range(len(self.answer)): # 输出每个答案的权重
-            if self.count == 0:
+            if sum(self.stat) == 0: # 计算总数避免除数依然为零
                 print("{} (0)".format(self.answer[i]))
             else:
-                print("{} ({}%)".format(self.answer[i], int(self.stat[i] / self.count * 100)))
+                if self.answer[i] in self.question: # 如果问题中包含答案则调整权重
+                    self.stat[i] = int(self.stat[i] / 3)
+                print("{} ({}%)".format(self.answer[i], int(self.stat[i] / sum(self.stat) * 100)))
         print("-" * 72)
-        if self.count == 0: # 输出建议回答
+        if sum(self.stat) == 0: # 输出建议回答
             print("没有找到答案，蒙一个吧")
         else:
             if self.question_type:
