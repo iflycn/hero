@@ -74,7 +74,7 @@ def main(enter, app):
 if __name__ == "__main__":
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.0.3.20180117".format(" " * 29))
+    print("{}1.0.4.20180119".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
     app_list = ("1", "2", "3", "9")

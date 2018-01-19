@@ -1,5 +1,6 @@
 import urllib.request
 import urllib.parse
+import re
 import _thread
 
 class AI:
@@ -27,10 +28,8 @@ class AI:
             self.stat.append(0)
         if self.result != -1: # 输出建议回答
             print("建议回答：{}\n".format(self.answer[self.result]))
-        _thread.start_new_thread(self.get_count_zhidao, ("https://iask.sina.com.cn/search?searchWord=" + urllib.parse.quote(self.question),))
-        _thread.start_new_thread(self.get_count_zhidao, ("http://wenwen.sogou.com/s/?w=" + urllib.parse.quote(self.question),))
-        _thread.start_new_thread(self.get_count_zhidao, ("https://wenda.so.com/search/?q=" + urllib.parse.quote(self.question),))
-        _thread.start_new_thread(self.get_count_zhidao, ("https://zhidao.baidu.com/search?word=" + urllib.parse.quote(self.question, encoding="gbk"),))
+        for http in ("https://iask.sina.com.cn/search?searchWord=", "http://wenwen.sogou.com/s/?w=", "https://wenda.so.com/search/?q=", "https://zhidao.baidu.com/search?word="):
+            _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote(self.question),))
         while True:
             if self.count == 4:
                 break
@@ -94,7 +93,7 @@ class AI:
 
     def format_question_pre(self, question, app):
         # 去除多余字符
-        question = question.replace("本题奖金20万", "")
+        question = re.sub(r"本题奖金.*万", "", question)
         # 去除多余编号
         if app == 9:
             if str.isdigit(question[-1]):
