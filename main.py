@@ -72,7 +72,10 @@ def main(enter, app):
     print("use {0} seconds".format(round(time_end - time_start, 2)))
 
 if __name__ == "__main__":
-    print("\n" + "-" * 27 + " 百万英雄答题助手 " + "-" * 27)
+    print("-" * 72)
+    print("{}百万英雄答题助手".format(" " * 28))
+    print("{}1.0.3.20180117".format(" " * 29))
+    print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
     app_list = ("1", "2", "3", "9")
     while True:

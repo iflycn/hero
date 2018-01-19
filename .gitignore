@@ -1,7 +1,10 @@
 /temp/
 desktop.ini
 .vscode
-__pycache__
+/__pycache__/
+/build/
 /dist/
 /screenshots/
 auto.py
+semi.py
+*.spec

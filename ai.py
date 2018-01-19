@@ -8,6 +8,12 @@ class AI:
         self.question_type = True
         self.question = data[0]
         self.answer = data[1][::-1]
+        self.result = -1
+        if len(data) > 2:
+            try:
+                self.result = self.answer.index(data[2])
+            except:
+                pass
         self.stat = []
         self.count = 0
 
@@ -19,6 +25,8 @@ class AI:
         for i in range(len(self.answer)): # 格式化答案并生成权重列表
             self.answer[i] = self.answer[i].replace("《", "").replace("》", "")
             self.stat.append(0)
+        if self.result != -1: # 输出建议回答
+            print("建议回答：{}\n".format(self.answer[self.result]))
         _thread.start_new_thread(self.get_count_zhidao, ("https://iask.sina.com.cn/search?searchWord=" + urllib.parse.quote(self.question),))
         _thread.start_new_thread(self.get_count_zhidao, ("http://wenwen.sogou.com/s/?w=" + urllib.parse.quote(self.question),))
         _thread.start_new_thread(self.get_count_zhidao, ("https://wenda.so.com/search/?q=" + urllib.parse.quote(self.question),))
@@ -85,6 +93,8 @@ class AI:
         self.count += 1
 
     def format_question_pre(self, question, app):
+        # 去除多余字符
+        question = question.replace("本题奖金20万", "")
         # 去除多余编号
         if app == 9:
             if str.isdigit(question[-1]):
@@ -95,7 +105,7 @@ class AI:
 
     def format_question(self, question, app):
         # 去除题目编号
-        if app in (1, 3):
+        if app in (1, 3, 4):
             if str.isdigit(question[1:2]):
                 question = question[3:]
             else:
@@ -113,10 +123,10 @@ class AI:
     def print_answer(self):
         self.count = 0
         for i in range(len(self.answer)):
-            self.count += self.stat[i] # 计算总数避免除数依然为零
-        for i in range(len(self.answer)): # 输出每个答案的权重
             if self.answer[i] in self.question: # 如果问题中包含答案则调整权重
                 self.stat[i] = int(self.stat[i] / 3)
+            self.count += self.stat[i] # 计算总数避免除数依然为零
+        for i in range(len(self.answer)): # 输出每个答案的权重
             if self.count == 0:
                 print("{} (0)".format(self.answer[i]))
             else:
