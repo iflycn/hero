@@ -24,7 +24,7 @@ def adb_get_screen(enter, app):
         print("error: file not found")
         sys.exit()
     # 截图裁剪坐标
-    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1200), (70, 310, 70, 1160), (), (), (), (), (), (138, 500, 138, 1700))
+    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1200), (70, 310, 70, 1160), (), (80, 375, 80, 1300), (), (), (), (138, 500, 138, 1700))
     coordinate = coordinate[app - 1]
     region = img.crop((coordinate[0], coordinate[1], img.size[0] - coordinate[2], coordinate[3]))
     region.save(r"./screenshots/screenshot_crop.png")
@@ -48,7 +48,7 @@ def get_words_result():
 # 处理 OCR 数据
 def format_words_result(data, app):
     question = ""
-    if app in (1, 2, 3):
+    if app in (1, 2, 3, 5):
         answer = ["", "", ""]
     else:
         answer = ["", "", "", ""]
@@ -77,10 +77,10 @@ if __name__ == "__main__":
     print("{}1.0.4.20180119".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
-    app_list = ("1", "2", "3", "9")
+    print("1. 百万英雄\t2. 芝士超人\n3. 冲顶大会\t4. 百万赢家（适配中）\n5. 全民答题\t9. 头脑王者\n")
     while True:
-        app = input("输入数字（1.百万英雄、2.芝士超人、3.冲顶大会、9.头脑王者）：")
-        if app in app_list:
+        app = input("输入数字：")
+        if app in ("1", "2", "3", "5", "9"):
             break
     print("\n手机出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
     while True:

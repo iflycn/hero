@@ -24,7 +24,7 @@ class AI:
         print("{}\n".format(self.question)) # 输出题目
         self.question = self.format_question(self.question, app) # 格式化题目
         for i in range(len(self.answer)): # 格式化答案并生成权重列表
-            self.answer[i] = self.answer[i].replace("《", "").replace("》", "")
+            self.answer[i] = self.format_answer_pre(self.answer[i], app)
             self.stat.append(0)
         if self.result != -1: # 输出建议回答
             for i in range(len(self.answer)):
@@ -123,6 +123,14 @@ class AI:
                 question = question.replace(v[0], v[1])
                 self.question_type = False
         return question
+
+    def format_answer_pre(self, answer, app):
+        # 去除多余字符
+        answer = answer.replace("《", "").replace("》", "")
+        # 去除多余序号
+        if app == 5:
+            answer = re.sub(r"\w:", "", answer)
+        return answer
 
     def print_answer(self):
         for i in range(len(self.answer)): # 输出每个答案的权重
