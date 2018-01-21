@@ -27,7 +27,8 @@ def adb_get_screen(enter, app):
     # 截图裁剪坐标
     coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1200), (70, 310, 70, 1160), (), (80, 375, 80, 1300), (), (), (), (138, 500, 138, 1700))
     coordinate = coordinate[app - 1]
-    region = img.crop((coordinate[0], coordinate[1], img.size[0] - coordinate[2], coordinate[3]))
+    coefficient = img.size[0] / 1080
+    region = img.crop((coordinate[0] * coefficient, coordinate[1] * coefficient, img.size[0] - coordinate[2] * coefficient, coordinate[3] * coefficient))
     region.save(r"./screenshots/screenshot_crop.png")
 
 # 获取设备截图
