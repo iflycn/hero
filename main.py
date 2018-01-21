@@ -1,10 +1,11 @@
+import ctypes
 import os
-import time
 import sys
+import time
+from aip import AipOcr
+from datetime import datetime
 from PIL import Image
 from shutil import copyfile
-from datetime import datetime
-from aip import AipOcr
 from config import APP_ID
 from config import API_KEY
 from config import SECRET_KEY
@@ -72,9 +73,10 @@ def main(enter, app):
     print("use {0} seconds".format(round(time_end - time_start, 2)))
 
 if __name__ == "__main__":
+    ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.0.4.20180119".format(" " * 29))
+    print("{}1.0.6.20180120".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
     print("1. 百万英雄\t2. 芝士超人\n3. 冲顶大会\t4. 百万赢家（适配中）\n5. 全民答题\t9. 头脑王者\n")

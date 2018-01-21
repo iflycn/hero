@@ -1,7 +1,9 @@
+import _thread
+import ctypes
+import re
+import sys
 import urllib.request
 import urllib.parse
-import re
-import _thread
 
 class AI:
 
@@ -18,6 +20,11 @@ class AI:
         self.stat = []
         self.count = 0
 
+    def print_color_text(self, color, msg):
+        ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), color)
+        print(msg)
+        ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
+
     def ai_search(self, app):
         self.question = self.format_question_pre(self.question, app) # 预格式化题目
         print("-" * 72)
@@ -33,7 +40,7 @@ class AI:
                 else:
                     print("{} (×)".format(self.answer[i]))
             print("-" * 72)
-            print("建议回答：{}".format(self.answer[self.result]))
+            self.print_color_text(0x0b, "建议回答：{}".format(self.answer[self.result]))
             print("-" * 72 + "\n")
         for http in ("https://iask.sina.com.cn/search?searchWord=", "http://wenwen.sogou.com/s/?w=", "https://wenda.so.com/search/?q=", "https://zhidao.baidu.com/search?word="):
             _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote(self.question),))
@@ -145,9 +152,9 @@ class AI:
             print("没有找到答案，蒙一个吧")
         else:
             if self.question_type:
-                print("肯定回答：{}".format(self.answer[self.stat.index(max(self.stat))]))
+                self.print_color_text(0x0b, "肯定回答：{}".format(self.answer[self.stat.index(max(self.stat))]))
             else:
-                print("否定回答：{}".format(self.answer[self.stat.index(min(self.stat))]))
+                self.print_color_text(0x0b, "否定回答：{}".format(self.answer[self.stat.index(min(self.stat))]))
         print("-" * 72)
 
 if __name__ == "__main__":
