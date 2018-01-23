@@ -20,7 +20,7 @@ def adb_get_screen(enter, app):
         copyfile(os.path.join("./screenshots/", "screenshot.png"), os.path.join("./screenshots/", datetime.now().strftime("%Y%m%d%H%M%S.png")))
     # 裁剪截图
     try:
-        img = Image.open(r"./screenshots/screenshot.png")
+        img = Image.open(r"./screenshots/screenshot.png").convert("L")
     except:
         print("error: file not found")
         sys.exit()

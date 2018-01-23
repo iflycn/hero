@@ -1,5 +1,6 @@
 import _thread
 import ctypes
+import jieba.analyse
 import re
 import sys
 import urllib.request
@@ -26,6 +27,7 @@ class AI:
         ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
 
     def ai_search(self, app):
+        jieba.initialize()
         self.question = self.format_question_pre(self.question, app) # 预格式化题目
         print("-" * 72)
         print("{}\n".format(self.question)) # 输出题目
@@ -43,7 +45,8 @@ class AI:
             self.print_color_text(0x0b, "建议回答：{}".format(self.answer[self.result]))
             print("-" * 72 + "\n")
         for http in ("https://iask.sina.com.cn/search?searchWord=", "http://wenwen.sogou.com/s/?w=", "https://wenda.so.com/search/?q=", "https://zhidao.baidu.com/search?word="):
-            _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote(self.question),))
+            # _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote(self.question),))
+            _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote("+".join(jieba.analyse.extract_tags(self.question))),)) # 测试功能：分词
         while True:
             if self.count == 4:
                 break
@@ -56,9 +59,10 @@ class AI:
             while True:
                 if self.count == len(self.answer):
                     break
-            http += urllib.parse.quote(self.question)
+            # http += urllib.parse.quote(self.question)
+            http += urllib.parse.quote("+".join(jieba.analyse.extract_tags(self.question))) # 测试功能：分词
             for i in range(len(self.answer)):
-                _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote("+") + urllib.parse.quote(self.answer[i]),))
+                _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote("+{}".format(self.answer[i])),))
             while True:
                 if self.count == len(self.answer) * 2:
                     break
@@ -122,10 +126,10 @@ class AI:
             else:
                 question = question[2:]
         # 去除特殊字符
-        for v in ["“", "”", "\"", "？", "?"]:
+        for v in ["“", "”", "\"", "？", "?", "以下", "下列"]:
             question = question.replace(v, "")
         # 排除否定式提问
-        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不对", "正确"], ["不宜", "适宜"], ["不可能", "可能"], ["不需要", "需要"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["未获得", "获得"], ["是错", "是对"], ["无关", "有关"], ["并非", ""]):
+        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不对", "正确"], ["不宜", "适宜"], ["不可能", "可能"], ["不需要", "需要"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不提供", "提供"], ["不位于", "位于"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["未获得", "获得"], ["是错", "是对"], ["无关", "有关"], ["并非", ""]):
             if v[0] in question:
                 question = question.replace(v[0], v[1])
                 self.question_type = False
