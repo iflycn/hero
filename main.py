@@ -25,7 +25,7 @@ def adb_get_screen(enter, app):
         print("error: file not found")
         sys.exit()
     # 截图裁剪坐标
-    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (), (80, 375, 80, 1300), (), (), (), (138, 500, 138, 1700))
+    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (80, 375, 80, 1300), (), (), (), (138, 500, 138, 1700))
     coordinate = coordinate[app - 1]
     coefficient = img.size[0] / 1080
     region = img.crop((coordinate[0] * coefficient, coordinate[1] * coefficient, img.size[0] - coordinate[2] * coefficient, coordinate[3] * coefficient))
@@ -50,11 +50,13 @@ def get_words_result():
 # 处理 OCR 数据
 def format_words_result(data, app):
     question = ""
-    if app in (1, 2, 3, 5):
-        answer = ["", "", ""]
-    else:
+    if app == 9:
         answer = ["", "", "", ""]
+    else:
+        answer = ["", "", ""]
     i = 0
+    if "本题为个性化题" in data[-1]["words"]: # 临时解决百万英雄个性化题截图坐标错误
+        data.pop()
     for words in data:
         i += 1
         if i <= len(data) - len(answer):
@@ -77,13 +79,13 @@ if __name__ == "__main__":
     ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.1.0.20180123".format(" " * 29))
+    print("{}1.1.1.20180124".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
-    print("1. 百万英雄\t2. 芝士超人\n3. 冲顶大会\t4. 百万赢家（适配中）\n5. 全民答题\t9. 头脑王者\n")
+    print("1. 百万英雄\t2. 芝士超人\n3. 冲顶大会\t4. 百万赢家\n5. 全民答题\t9. 头脑王者\n")
     while True:
         app = input("输入数字：")
-        if app in ("1", "2", "3", "5", "9"):
+        if app in ("1", "2", "3", "4", "5", "9"):
             break
     print("\n手机出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
     while True:
