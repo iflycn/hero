@@ -1,3 +1,4 @@
+import configparser
 import ctypes
 import os
 import sys
@@ -6,9 +7,6 @@ from aip import AipOcr
 from datetime import datetime
 from PIL import Image
 from shutil import copyfile
-from config import APP_ID
-from config import API_KEY
-from config import SECRET_KEY
 from ai import AI
 
 # 处理设备截图
@@ -37,8 +35,21 @@ def get_crop_data(img):
         return fp.read()
     return ""
 
+#获取 config 配置文件
+def get_config_data(section, key):
+    try:
+        config = configparser.ConfigParser()
+        config.read(r"./config.ini")
+        return config.get(section, key)
+    except:
+        print("error: read config.ini error")
+        sys.exit()
+
 # 获取 OCR 数据
 def get_words_result():
+    APP_ID = get_config_data("ORC", "APP_ID")
+    API_KEY = get_config_data("ORC", "API_KEY")
+    SECRET_KEY = get_config_data("ORC", "SECRET_KEY")
     OCR = AipOcr(APP_ID, API_KEY, SECRET_KEY)
     try:
         respon = OCR.basicGeneral(get_crop_data(r"./screenshots/screenshot_crop.png"))
@@ -79,7 +90,7 @@ if __name__ == "__main__":
     ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.1.1.20180124".format(" " * 29))
+    print("{}1.2.0.20180127".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
     print("1. 百万英雄\t2. 芝士超人\n3. 冲顶大会\t4. 百万赢家\n5. 全民答题\t9. 头脑王者\n")
