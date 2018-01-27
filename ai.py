@@ -1,6 +1,5 @@
 import _thread
 import ctypes
-# import jieba.analyse
 import re
 import sys
 import urllib.request
@@ -27,7 +26,6 @@ class AI:
         ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
 
     def ai_search(self, app):
-        # jieba.initialize()
         self.question = self.format_question_pre(self.question, app) # 预格式化题目
         print("-" * 72)
         print("{}\n".format(self.question)) # 输出题目
@@ -46,7 +44,6 @@ class AI:
             print("-" * 72 + "\n")
         for http in ("https://iask.sina.com.cn/search?searchWord=", "http://wenwen.sogou.com/s/?w=", "https://wenda.so.com/search/?q=", "https://zhidao.baidu.com/search?word="):
             _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote(self.question),))
-            # _thread.start_new_thread(self.get_count_zhidao, (http + urllib.parse.quote("+".join(jieba.analyse.extract_tags(self.question))),)) # 测试功能：分词
         while True:
             if self.count == 4:
                 break
@@ -60,7 +57,6 @@ class AI:
                 if self.count == len(self.answer):
                     break
             http += urllib.parse.quote(self.question)
-            # http += urllib.parse.quote("+".join(jieba.analyse.extract_tags(self.question))) # 测试功能：分词
             for i in range(len(self.answer)):
                 _thread.start_new_thread(self.get_count_baidu, (i, http + urllib.parse.quote("+{}".format(self.answer[i])),))
             while True:
