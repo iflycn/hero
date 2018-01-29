@@ -116,7 +116,7 @@ class AI:
 
     def format_question(self, question, app):
         # 去除题目编号
-        if app in (1, 3, 4):
+        if app in (1, 3, 4, 8):
             if str.isdigit(question[1:2]):
                 question = question[3:]
             else:
@@ -135,8 +135,8 @@ class AI:
         # 去除多余字符
         answer = answer.replace("《", "").replace("》", "")
         # 去除多余序号
-        if app == 5:
-            answer = re.sub(r"\w:", "", answer)
+        if app in (5, 6, 8):
+            answer = answer[2:]
         return answer
 
     def print_answer(self):
