@@ -136,7 +136,7 @@ class AI:
         answer = answer.replace("《", "").replace("》", "")
         # 去除多余序号
         if app in (5, 6, 8):
-            answer = answer[2:]
+            answer = re.sub(r"[ABC]?[:\.]?", "", answer)
         return answer
 
     def print_answer(self):

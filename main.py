@@ -23,7 +23,7 @@ def adb_get_screen(enter, app):
         print("error: file not found")
         sys.exit()
     # 截图裁剪坐标
-    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (40, 375, 40, 1320), (70, 260, 70, 1100), (100, 540, 100, 1280), (80, 1030, 80, 1620), (138, 500, 138, 1700))
+    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (40, 375, 40, 1320), (70, 260, 70, 1100), (100, 540, 100, 1280), (80, 1100, 80, 1740), (138, 500, 138, 1700))
     coordinate = coordinate[app - 1]
     coefficient = img.size[0] / 1080
     region = img.crop((coordinate[0] * coefficient, coordinate[1] * coefficient, img.size[0] - coordinate[2] * coefficient, coordinate[3] * coefficient))
