@@ -23,7 +23,7 @@ def adb_get_screen(enter, app):
         print("error: file not found")
         sys.exit()
     # 截图裁剪坐标
-    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (40, 375, 40, 1320), (70, 260, 70, 1100), (100, 540, 100, 1280), (80, 1100, 80, 1740), (138, 500, 138, 1700))
+    coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (40, 375, 40, 1320), (70, 260, 70, 1100), (100, 540, 100, 1280), (80, 1100, 80, 1740), (90, 440, 90, 1220), (138, 500, 138, 1700))
     coordinate = coordinate[app - 1]
     coefficient = img.size[0] / 1080
     region = img.crop((coordinate[0] * coefficient, coordinate[1] * coefficient, img.size[0] - coordinate[2] * coefficient, coordinate[3] * coefficient))
@@ -62,7 +62,7 @@ def get_words_result():
 # 处理 OCR 数据
 def format_words_result(data, app):
     question = ""
-    if app == 9:
+    if app == 10:
         answer = ["", "", "", ""]
     else:
         answer = ["", "", ""]
@@ -91,13 +91,13 @@ if __name__ == "__main__":
     ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.3.0.20180129".format(" " * 29))
+    print("{}1.4.1.20180130".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
-    print("1. 百万英雄\t2. 芝士超人\t3. 冲顶大会\n4. 百万赢家\t5. 全民答题\t6. 非答不可\n7. 蘑菇大富翁\t8. 百万黄金屋\t9. 头脑王者\n")
+    print(" 1. 百万英雄\t 2. 芝士超人\t 3. 冲顶大会\n 4. 百万赢家\t 5. 全民答题\t 6. 非答不可\n 7. 蘑菇大富翁\t 8. 百万黄金屋\t 9. 极速挑战\n10. 头脑王者\n")
     while True:
         app = input("输入数字：")
-        if app in ("1", "2", "3", "4", "5", "6", "7", "8", "9"):
+        if app in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"):
             break
     print("\n手机出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
     while True:

@@ -107,7 +107,7 @@ class AI:
         # 去除多余字符
         question = re.sub(r"本题奖金.*万", "", question)
         # 去除多余编号
-        if app == 9:
+        if app == 10:
             if str.isdigit(question[-1]):
                 question = question[:-1]
             if str.isdigit(question[-1]):
@@ -116,16 +116,18 @@ class AI:
 
     def format_question(self, question, app):
         # 去除题目编号
-        if app in (1, 3, 4, 8):
-            if str.isdigit(question[1:2]):
-                question = question[3:]
-            else:
-                question = question[2:]
+        # if app in (1, 3, 4, 8, 9):
+        #     if str.isdigit(question[1:2]):
+        #         question = question[3:].strip()
+        #     else:
+        #         question = question[2:].strip()
+        question = re.sub(r"[[0-9]]?[:\.]?", "", question).strip()
+        # print(question)
         # 去除特殊字符
         for v in ["“", "”", "\"", "？", "?", "以下", "下列"]:
             question = question.replace(v, "")
         # 排除否定式提问
-        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不对", "正确"], ["不宜", "适宜"], ["不可能", "可能"], ["不需要", "需要"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不准确", "准确"], ["不提供", "提供"], ["不位于", "位于"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["未获得", "获得"], ["是错", "是对"], ["无关", "有关"], ["并非", ""]):
+        for v in (["不是", "是"], ["不会", "会"], ["不能", "可以"], ["不同", "相同"], ["不用", "必须"], ["不对", "正确"], ["不宜", "适宜"], ["不可能", "可能"], ["不需要", "需要"], ["不包括", "包括"], ["不属于", "属于"], ["不正确", "正确"], ["不准确", "准确"], ["不相符", "相符"], ["不提供", "提供"], ["不位于", "位于"], ["没有", "有"], ["未在", "在"], ["未曾", "曾经"], ["未获得", "获得"], ["是错", "是对"], ["无关", "有关"], ["并非", ""]):
             if v[0] in question:
                 question = question.replace(v[0], v[1])
                 self.question_type = False
@@ -135,8 +137,10 @@ class AI:
         # 去除多余字符
         answer = answer.replace("《", "").replace("》", "")
         # 去除多余序号
-        if app in (5, 6, 8):
-            answer = re.sub(r"[ABC]?[:\.]?", "", answer)
+        # if app in (5, 6, 8):
+        #     answer = re.sub(r"[ABC]?[:\.]?", "", answer)
+        answer = re.sub(r"[ABC]?[:\.]?", "", answer)
+        # print(answer)
         return answer
 
     def print_answer(self):
