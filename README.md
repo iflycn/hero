@@ -1,5 +1,5 @@
 # 百万英雄答题助手
-使用 `Python` 开发的答题助手，适配百万英雄、芝士超人、冲顶大会、百万赢家、全民答题、非答不可、蘑菇大富翁、百万黄金屋、极速挑战、头脑王者，自动显示答案，支持 Android 手机或电脑模拟器。
+使用 `Python` 开发的答题助手，自动显示答案，支持 Android 手机或电脑模拟器。内置适配百万英雄、芝士超人、冲顶大会、百万赢家、全民答题、非答不可、蘑菇大富翁、百万黄金屋、极速挑战、头脑王者，你甚至可以自定义截图坐标——如果你的 APP 不在适配列表或出现截图错误。
 
 ## 号外
 * 电脑小白怎么办？加入 QQ 群 `696211910` 或邮件联系作者 `gito@foxmail.com`，免费获取打包好的程序，把右手食指放在鼠标左键上双击就可以运行:)
@@ -26,13 +26,14 @@
 ### 下载程序
 5. 下载[百万英雄答题助手压缩包](https://github.com/iflycn/hero/archive/master.zip)，解压到硬盘目录，例如 `D:\hero-master`
 6. 修改文件 `config.ini` 中的 `APP_ID`、`API_KEY`、`SECRET_KEY` 为你自己的，申请地址：[百度 AI 开放平台](http://ai.baidu.com/tech/ocr/general)
+7. 如果你使用的 APP 未适配，可以修改文件 `config.ini` 中的 `X1`、`Y1`、`X2`、`Y2` 字段，其意义分别为左边距、上边距、右边距和下边距
 ### 安装 Python
-7. 从 [Python 官网](https://www.python.org/downloads)下载安装 `python3.6.4`
-8. 电脑运行 `CMD`，输入命令 `pip3 install -r D:\hero-master\requirements.txt`，等待下载依赖包并安装完成
-9. 如果下载依赖包过程中出错，重新输入命令 `pip3 install -r D:\hero-master\requirements.txt` 直到下载成功
+8. 从 [Python 官网](https://www.python.org/downloads)下载安装 `python3.6.4`
+9. 电脑运行 `CMD`，输入命令 `pip3 install -r D:\hero-master\requirements.txt`，等待下载依赖包并安装完成
+10. 如果下载依赖包过程中出错，重新输入命令 `pip3 install -r D:\hero-master\requirements.txt` 直到下载成功
 ### 开始使用
-10. 手机进入百万英雄界面
-11. 电脑运行 `CMD`，依次输入命令 `D:`、`cd hero-master`、`python main.py`，根据程序提示操作即可
+11. 手机进入百万英雄界面
+12. 电脑运行 `CMD`，依次输入命令 `D:`、`cd hero-master`、`python main.py`，根据程序提示操作即可
 
 ## 参考项目
 - [wuditken/MillionHeroes](https://github.com/wuditken/MillionHeroes)

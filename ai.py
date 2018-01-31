@@ -139,7 +139,7 @@ class AI:
         # 去除多余序号
         # if app in (5, 6, 8):
         #     answer = re.sub(r"[ABC]?[:\.]?", "", answer)
-        answer = re.sub(r"[ABC]?[:\.]?", "", answer)
+        answer = re.sub(r"[ABC]?[:\.]?", "", answer).strip()
         # print(answer)
         return answer
 
