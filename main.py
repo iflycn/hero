@@ -35,7 +35,7 @@ def adb_get_screen(enter, app):
         time.sleep(3)
         sys.exit()
     # 截图裁剪坐标
-    if app == 99:
+    if app == 26:
         try:
             X1 = int(get_config_data("COORDINATE", "X1"))
             Y1 = int(get_config_data("COORDINATE", "Y1"))
@@ -47,7 +47,7 @@ def adb_get_screen(enter, app):
             sys.exit()
         region = img.crop((X1, Y1, X2, Y2))
     else:
-        coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (40, 375, 40, 1320), (70, 260, 70, 1100), (100, 540, 100, 1280), (80, 1100, 80, 1740), (90, 440, 90, 1220), (138, 500, 138, 1700))
+        coordinate = ((70, 240, 70, 1285), (45, 285, 45, 1150), (70, 310, 70, 1160), (60, 300, 60, 1160), (40, 375, 40, 1320), (70, 260, 70, 1100), (100, 540, 100, 1280), (80, 1100, 80, 1740), (90, 440, 90, 1220), (60, 310, 60, 1180), (80, 420, 80, 1110), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (0, 0, 0, 1920), (138, 500, 138, 1700))
         coordinate = coordinate[app - 1]
         coefficient = img.size[0] / 1080
         region = img.crop((coordinate[0] * coefficient, coordinate[1] * coefficient, img.size[0] - coordinate[2] * coefficient, coordinate[3] * coefficient))
@@ -77,13 +77,11 @@ def get_words_result():
 # 处理 OCR 数据
 def format_words_result(data, app):
     question = ""
-    if app == 10:
+    if app == 24:
         answer = ["", "", "", ""]
     else:
         answer = ["", "", ""]
     i = 0
-    if "本题为个性化题" in data[-1]["words"]: # 临时解决百万英雄个性化题截图坐标错误
-        data.pop()
     for words in data:
         i += 1
         if i <= len(data) - len(answer):
@@ -106,13 +104,14 @@ if __name__ == "__main__":
     ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.5.0.20180131".format(" " * 29))
+    print("{}1.5.2.20180131".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
-    print(" 1. 百万英雄\t 2. 芝士超人\t 3. 冲顶大会\n 4. 百万赢家\t 5. 全民答题\t 6. 非答不可\n 7. 蘑菇大富翁\t 8. 百万黄金屋\t 9. 极速挑战\n10. 头脑王者\t99. 自定义\n")
+    print("A. 百万英雄\tB. 芝士超人\tC. 冲顶大会\nD. 百万赢家\tE. 全民答题\tF. 非答不可\nG. 蘑菇大富翁\tH. 百万黄金屋\tI. 极速挑战\nJ. 小米有乐\tK. 百万文豪\tX. 头脑王者\nZ. 自定义\n")
     while True:
-        app = input("输入数字：")
-        if app in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "99"):
+        app = input("输入序号：")
+        if app.lower() in ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "x", "z"):
+            app = ord(app.lower()) - 96
             break
     print("\n手机出现完整题目后按回车键，如果运行中出错，按 CTRL+C 退出并重新运行。")
     while True:

@@ -107,7 +107,7 @@ class AI:
         # 去除多余字符
         question = re.sub(r"本题奖金.*万", "", question)
         # 去除多余编号
-        if app == 10:
+        if app == 24:
             if str.isdigit(question[-1]):
                 question = question[:-1]
             if str.isdigit(question[-1]):
@@ -116,11 +116,6 @@ class AI:
 
     def format_question(self, question, app):
         # 去除题目编号
-        # if app in (1, 3, 4, 8, 9):
-        #     if str.isdigit(question[1:2]):
-        #         question = question[3:].strip()
-        #     else:
-        #         question = question[2:].strip()
         question = re.sub(r"[[0-9]]?[:\.]?", "", question).strip()
         # print(question)
         # 去除特殊字符
@@ -137,8 +132,6 @@ class AI:
         # 去除多余字符
         answer = answer.replace("《", "").replace("》", "")
         # 去除多余序号
-        # if app in (5, 6, 8):
-        #     answer = re.sub(r"[ABC]?[:\.]?", "", answer)
         answer = re.sub(r"[ABC]?[:\.]?", "", answer).strip()
         # print(answer)
         return answer
