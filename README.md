@@ -26,7 +26,7 @@
 ### 下载程序
 5. 下载[百万英雄答题助手压缩包](https://github.com/iflycn/hero/archive/master.zip)，解压到硬盘目录，例如 `D:\hero-master`
 6. 修改文件 `config.ini` 中的 `APP_ID`、`API_KEY`、`SECRET_KEY` 为你自己的，申请地址：[百度 AI 开放平台](http://ai.baidu.com/tech/ocr/general)
-7. 如果你使用的 APP 未适配，可以修改文件 `config.ini` 中的 `X1`、`Y1`、`X2`、`Y2` 字段，其意义分别为左边距、上边距、右边距和下边距
+7. 如果你使用的 APP 未适配，可以修改文件 `config.ini` 中的 `ANSWER_SIZE` 字段，其意义为选项数；修改 `X1`、`Y1`、`X2`、`Y2` 字段，其意义分别为左边距、上边距、右边距和下边距
 ### 安装 Python
 8. 从 [Python 官网](https://www.python.org/downloads)下载安装 `python3.6.4`
 9. 电脑运行 `CMD`，输入命令 `pip3 install -r D:\hero-master\requirements.txt`，等待下载依赖包并安装完成

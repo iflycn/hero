@@ -77,7 +77,7 @@ def get_words_result():
 # 处理 OCR 数据
 def format_words_result(data, app):
     question = ""
-    if app == 24:
+    if app == 24 or (app == 26 and get_config_data("COORDINATE", "ANSWER_SIZE") == "4"):
         answer = ["", "", "", ""]
     else:
         answer = ["", "", ""]
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     ctypes.windll.kernel32.SetConsoleTextAttribute(ctypes.windll.kernel32.GetStdHandle(-11), 0x07)
     print("-" * 72)
     print("{}百万英雄答题助手".format(" " * 28))
-    print("{}1.5.4.20180202".format(" " * 29))
+    print("{}1.5.5.20180202".format(" " * 29))
     print("-" * 72)
     print("\n答案抓取自问答网站，无法保证绝对正确，如果回答和你所知不符，请相信自己！\n")
     print("A. 百万英雄\tB. 芝士超人\tC. 冲顶大会\nD. 百万赢家\tE. 黄金十秒\tF. 全民答题\nG. 非答不可\tH. 蘑菇大富翁\tI. 百万黄金屋\nJ. 极速挑战\tK. 小米有乐\tL. 百万文豪\nX. 头脑王者\tZ. 自定义\n")
